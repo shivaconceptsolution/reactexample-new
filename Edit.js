@@ -5,11 +5,13 @@ function Edit()
 {
  let data = useLocation();
  console.log(data.state);
- const baseURL = "https://jsonplaceholder.typicode.com/posts/"+data.state;
+ const baseURL = "http://127.0.0.1:5000/stu/63084b90efd3c07aaa22df94";
  const [post, setPost] = React.useState(null);
- const [title,setTitle]= useState("")
- const [body,setBody]= useState("")
-
+ const [id, setId] = React.useState("");
+ const [rno, setRno] = React.useState("");
+ const [name,setName]= useState("")
+ const [branch,setBranch]= useState("")
+ const [fees,setFees]= useState("")
  React.useEffect(() => {
     axios.get(baseURL).then((response) => {
       setPost(response.data);
@@ -18,24 +20,33 @@ function Edit()
 
   const handelInput =(e)=>{
     switch (e.target.id) {
-        case "title":
-            setTitle(e.target.value)
-           
-            break;
-        case "body":
-            setBody(e.target.value)
-            break;
-       
+      case "id":
+        setId(e.target.value)
+        break;
+        case "rno":
+          setRno(e.target.value)
+          break;
+        case "name":
+          setName(e.target.value)
+          break;
+        case "branch":
+          setBranch(e.target.value)
+          break;
+        case "fees":
+          setFees(e.target.value)
+          break;
         default:
-            break;
+          break;
     }
 }
 const changeSubmit =(e)=>{
     e.preventDefault()   
     axios
     .put(baseURL, {
-      title: title,
-      body: body
+      rno: rno,
+      name: name,
+      branch:branch,
+      fees:fees
     })
     .then((response) => {
      // setPost(response.data);
@@ -50,13 +61,17 @@ const changeSubmit =(e)=>{
            
           
             <form onSubmit={changeSubmit}>
-            USERID <input type="text"  id='uid' value={post.userId}  />   
-            <br />
-            ID <input type="text"  id='id' value={post.id}       />   
+            <input type="text"  id='id' value={post._id}       />   
             <br />  
-            Title  <input type="text"  id='title'   onChange={handelInput} />
+           rno <input type="text"  id='rno'   onChange={handelInput} />
             <br />
-             Body <input type="text"  id='body'  onChange={handelInput}/>
+             name <input type="text"  id='name'  onChange={handelInput}/>
+            <br />
+            <br />
+             branch <input type="text"  id='branch'  onChange={handelInput}/>
+            <br />
+            <br />
+             fees <input type="text"  id='fees'  onChange={handelInput}/>
             <br />
             <button type="submit" value="Submit">Submit</button>
         </form>
